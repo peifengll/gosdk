@@ -5,7 +5,8 @@ import (
 )
 
 var (
-	filePath                 = "/usr/local/log/log.log"
+	filePath                 = "log.log"
+	stdout                   = false
 	level      zapcore.Level = -1
 	maxSize                  = 500
 	maxBackups               = 30
@@ -35,4 +36,8 @@ func SetMaxAge(newMaxAge int) {
 
 func SetCompress(newCompress bool) {
 	compress = newCompress
+}
+
+func SetStdout(flag bool) {
+	stdout = flag
 }

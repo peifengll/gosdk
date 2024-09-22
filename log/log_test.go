@@ -9,3 +9,8 @@ func TestDefauleLog(t *testing.T) {
 	Warn("warn")
 	//Panic("panic")
 }
+
+func TestNewLogger(t *testing.T) {
+	logger := NewLogger()
+	logger.Info("info")
+}

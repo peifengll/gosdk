@@ -4,13 +4,22 @@ import (
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"os"
 )
 
 func NewLogger() *zap.Logger {
 	writeSyncer := getLogWriter()
 	encoder := getEncoder()
-	core := zapcore.NewCore(encoder, writeSyncer, level)
-	return zap.New(core, zap.AddCaller())
+	if stdout {
+		core := zapcore.NewTee(
+			zapcore.NewCore(encoder, writeSyncer, level),
+			zapcore.NewCore(encoder, os.Stdout, level),
+		)
+		return zap.New(core, zap.AddCaller())
+	} else {
+		core := zapcore.NewCore(encoder, writeSyncer, level)
+		return zap.New(core, zap.AddCaller())
+	}
 }
 
 func getEncoder() zapcore.Encoder {
