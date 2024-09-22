@@ -1,6 +1,9 @@
 package log
 
-import "testing"
+import (
+	"go.uber.org/zap"
+	"testing"
+)
 
 func TestDefauleLog(t *testing.T) {
 	Info("info")
@@ -11,6 +14,10 @@ func TestDefauleLog(t *testing.T) {
 }
 
 func TestNewLogger(t *testing.T) {
-	logger := NewLogger()
+	SetStdout(true)
+	logger := NewLogger(zap.Fields(zap.String("id", "test"), zap.String("reqpath", "/cxc/cxcx")))
 	logger.Info("info")
+	logger = NewLogger()
+	logger.Info("info")
+
 }

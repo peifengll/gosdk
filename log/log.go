@@ -7,7 +7,8 @@ import (
 	"os"
 )
 
-func NewLogger() *zap.Logger {
+func NewLogger(option ...zap.Option) *zap.Logger {
+	option = append(option, zap.AddCaller())
 	writeSyncer := getLogWriter()
 	encoder := getEncoder()
 	if stdout {
@@ -15,10 +16,10 @@ func NewLogger() *zap.Logger {
 			zapcore.NewCore(encoder, writeSyncer, level),
 			zapcore.NewCore(encoder, os.Stdout, level),
 		)
-		return zap.New(core, zap.AddCaller())
+		return zap.New(core, option...)
 	} else {
 		core := zapcore.NewCore(encoder, writeSyncer, level)
-		return zap.New(core, zap.AddCaller())
+		return zap.New(core, option...)
 	}
 }
 
