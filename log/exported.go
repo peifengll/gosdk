@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// 本页的，直接当标准输出用
 var (
 	std = zap.New(zapcore.NewCore(getEncoder(), os.Stdout, zap.DebugLevel), zap.AddCaller())
 )
